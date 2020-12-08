@@ -449,6 +449,12 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
                 BUDGET_NOTIFICATION_ID, noteListIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         String message = mTextNoteText.getText().toString();
 
+        // create pending intent to do back up
+        Intent backupServiceIntent = new Intent(this, NoteBackupService.class);
+        backupServiceIntent.putExtra(NoteBackupService.EXTRA_COURSE_ID, NoteBackup.ALL_COURSES);
+        PendingIntent backupServicePendingIntent = PendingIntent.getService(this,
+                BUDGET_NOTIFICATION_ID, backupServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         return new NotificationCompat.Builder(this, PRIMARY_CHANNEL_ID)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setSmallIcon(R.drawable.ic_notes)
@@ -459,6 +465,7 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
                 .setTicker("Review Note")
                 .setContentIntent(notificationPendingIntent)
                 .addAction(0, "View all notes", noteListPendingIntent)
+                .addAction(0, "Backup notes", backupServicePendingIntent)
                 .setAutoCancel(true)
                 .setStyle( new NotificationCompat.BigTextStyle()
                         .bigText(mTextNoteText.getText().toString())

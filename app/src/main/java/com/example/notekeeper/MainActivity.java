@@ -47,7 +47,6 @@ NavigationView.OnNavigationItemSelectedListener{
     private CourseRecyclerAdapter mCourseRecyclerAdapter;
     private GridLayoutManager mCourseLayoutManager;
     private NoteKeeperOpenHelper mDbOpenHelper;
-    private AsyncTaskLoader mTaskLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,9 +155,19 @@ NavigationView.OnNavigationItemSelectedListener{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.action_settings)
+        if(id == R.id.action_settings) {
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        } else if (id == R.id.action_backup) {
+            backupNotes();
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void backupNotes() {
+        Intent intent = new Intent(this, NoteBackupService.class);
+        intent.putExtra(NoteBackupService.EXTRA_COURSE_ID, NoteBackup.ALL_COURSES);
+        startService(intent);
     }
 
 
