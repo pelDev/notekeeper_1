@@ -39,4 +39,5 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="action_backup_notes">Backup notes</string>
+    <string name="action_upload_notes">Upload Notes</string>
 </resources>
